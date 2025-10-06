@@ -49,6 +49,42 @@ test.describe('Renderer', () => {
     expect(numNodes).toBe(1);
   });
 
+  test.describe('node style', () => {
+    test.beforeEach(async ({ page }) => {
+      await page.evaluate(() => {
+        const cy = window.cy;
+
+        cy.add({ data: { id: 'a' } });
+
+      });
+    }); // beforeEach
+
+    test('node bounding box extends beyond width and height for bordered triangle', async ({ page }) => {
+      const bb = await page.evaluate(() => {
+        const cy = window.cy;
+
+        cy.style().fromJson([
+          {
+            selector: 'node',
+            style: {
+              'shape': 'triangle',
+              'width': 100,
+              'height': 100,
+              'border-width': 10,
+              'border-color': 'black',
+            }
+          }
+        ]).update();
+
+        return cy.$('#a').boundingBox();
+      });
+
+      expect(bb.w).toBeGreaterThan(105);
+      expect(bb.h).toBeGreaterThan(105);
+    } ); // node bounding box extends beyond width and height for triangle
+
+  });
+
   test.describe('straight edges', () => {
     test.beforeEach(async ({ page }) => {
       await page.evaluate(() => {
@@ -531,5 +567,44 @@ test.describe('Renderer', () => {
 
 
   }); // Rounded edges
+
+  test.describe('with layout', () => {
+
+    test('single node cose layout with bounding box', async ({ page }) => {
+      const pos = await page.evaluate(async () => {
+        const cy = window.cy;
+
+        // remove all eles
+        cy.elements().remove();
+
+        // add one node
+        let node = cy.add({ data: { id: 'a' } }); 
+
+        // run layout
+        let layout = cy.layout({
+          name: 'cose',
+          boundingBox: {
+            x1: 0,
+            y1: 0,
+            x2: 100,
+            y2: 100
+          },
+        });
+
+        let layoutstop = layout.promiseOn('layoutstop');
+
+        layout.run();
+
+        await layoutstop;
+
+        return node.position();
+      });
+      
+      expect(pos.x).not.toBeNaN();
+      expect(pos.y).not.toBeNaN();
+
+    }); // single node cose layout
+
+  }); // with layout
 
 }); // renderer
