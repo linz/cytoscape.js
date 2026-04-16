@@ -37,10 +37,9 @@ CRp.drawElementText = function( context, ele, shiftToOriginWithBb, force, prefix
     if( !label || !label.value ){ return; }
 
     let justification = r.getLabelJustification(ele);
-    let isTextMetricsActual = ele.pstyle( 'text-metrics' ).strValue === 'actual';
 
     context.textAlign = justification;
-    context.textBaseline = isTextMetricsActual ? 'alphabetic' : 'bottom';
+    context.textBaseline = 'alphabetic';
   } else {
     let badLine = ele.element()._private.rscratch.badLine;
     let label = ele.pstyle( 'label' );

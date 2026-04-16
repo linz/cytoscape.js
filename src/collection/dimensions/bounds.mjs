@@ -3,6 +3,7 @@ import { assignBoundingBox, expandBoundingBoxSides,  clearBoundingBox, expandBou
 import {defaults, endsWith, getPrefixedProperty, hashIntsArray, memoize} from '../../util/index.mjs';
 
 let fn, elesfn;
+const BBOX_MARGIN_ERROR = 2;
 
 fn = elesfn = {};
 
@@ -291,8 +292,8 @@ let updateBoundsFromLabel = function( bounds, ele, prefix ){
     let borderWidth = ele.pstyle( 'text-border-width' ).pfValue;
     let halfBorderWidth = borderWidth / 2;
     let padding = ele.pstyle( 'text-background-padding' ).pfValue;
-    let marginOfErrorX = ele.pstyle( 'bbox-margin-error-x' ).pfValue; // expand to work around browser dimension inaccuracies
-    let marginOfErrorY = ele.pstyle( 'bbox-margin-error-y' ).pfValue; // expand to work around browser dimension inaccuracies
+    let marginOfErrorX = BBOX_MARGIN_ERROR; // expand to work around browser dimension inaccuracies
+    let marginOfErrorY = BBOX_MARGIN_ERROR; // expand to work around browser dimension inaccuracies
 
     let lh = labelHeight;
     let lw = labelWidth;

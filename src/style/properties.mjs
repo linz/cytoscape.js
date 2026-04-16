@@ -91,7 +91,6 @@ const styfn = {};
     valign: { enums: [ 'top', 'center', 'bottom' ] },
     halign: { enums: [ 'left', 'center', 'right' ] },
     justification: { enums: [ 'left', 'center', 'right', 'auto' ] },
-    textMetrics: { enums: [ 'default', 'actual' ] },
     text: { string: true },
     data: { mapping: true, regex: data( 'data' ) },
     layoutData: { mapping: true, regex: data( 'layoutData' ) },
@@ -219,8 +218,6 @@ const styfn = {};
     { name: 'text-max-width', type: t.size, triggersBounds: diff.any },
     { name: 'text-outline-width', type: t.size, triggersBounds: diff.any },
     { name: 'line-height', type: t.positiveNumber, triggersBounds: diff.any },
-    { name: 'bbox-margin-error-x', type: t.size, triggersBounds: diff.any },
-    { name: 'bbox-margin-error-y', type: t.size, triggersBounds: diff.any },
   ];
 
   let commonLabel = [
@@ -238,7 +235,6 @@ const styfn = {};
     { name: 'text-border-style', type: t.borderStyle, triggersBounds: diff.any },
     { name: 'text-background-shape', type: t.textBackgroundShape, triggersBounds: diff.any },
     { name: 'text-justification', type: t.justification },
-    { name: 'text-metrics', type: t.textMetrics },
     { name: 'box-select-labels', type: t.bool, triggersBounds: diff.any },
   ];
 
@@ -675,9 +671,6 @@ styfn.getDefaultProperties = function(){
     'underlay-padding': 10,
     'underlay-shape': 'round-rectangle',
     'underlay-corner-radius': 'auto',
-    'bbox-margin-error-x': 2,
-    'bbox-margin-error-y': 2,
-    'text-metrics': 'default',
     'transition-property': 'none',
     'transition-duration': 0,
     'transition-delay': 0,
